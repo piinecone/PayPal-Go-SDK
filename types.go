@@ -335,6 +335,108 @@ type (
 		Links         []Link     `json:"links,omitempty"`
 	}
 
+	OrderV2 struct {
+		ID     string `json:"id"`
+		Status string `json:"status"`
+		Intent string `json:"intent"`
+		Payer  struct {
+			Name struct {
+				GivenName string `json:"given_name"`
+				Surname   string `json:"surname"`
+			} `json:"name"`
+			EmailAddress string `json:"email_address"`
+			PayerID      string `json:"payer_id"`
+		} `json:"payer"`
+		PurchaseUnits []struct {
+			ReferenceID string `json:"reference_id"`
+			Amount      struct {
+				CurrencyCode string `json:"currency_code"`
+				Value        string `json:"value"`
+			} `json:"amount"`
+			Payee struct {
+				EmailAddress string `json:"email_address"`
+			} `json:"payee"`
+			Payments struct {
+				Captures []struct {
+					ID     string `json:"id"`
+					Status string `json:"status"`
+					Amount struct {
+						CurrencyCode string `json:"currency_code"`
+						Value        string `json:"value"`
+					} `json:"amount"`
+					SellerProtection struct {
+						Status            string   `json:"status"`
+						DisputeCategories []string `json:"dispute_categories"`
+					} `json:"seller_protection"`
+					FinalCapture       bool   `json:"final_capture"`
+					DisbursementMode   string `json:"disbursement_mode"`
+					ApplicationContext struct {
+						SupplementaryData []struct {
+							IndustryType string `json:"industry_type"`
+							Data         struct {
+								AirlineItineraries []struct {
+									Ticket struct {
+										Number             string `json:"number"`
+										IssueDate          string `json:"issue_date"`
+										IssuingCarrierCode string `json:"issuing_carrier_code"`
+										TravelAgencyName   string `json:"travel_agency_name"`
+										TravelAgencyCode   string `json:"travel_agency_code"`
+									} `json:"ticket"`
+									Passenger struct {
+										Name struct {
+											FullName string `json:"full_name"`
+										} `json:"name"`
+										DateOfBirth string `json:"date_of_birth"`
+										CountryCode string `json:"country_code"`
+									} `json:"passenger"`
+									FlightLegDetails []struct {
+										FlightNumber     int    `json:"flight_number"`
+										CarrierCode      string `json:"carrier_code"`
+										ServiceClass     string `json:"service_class"`
+										DepartureDate    string `json:"departure_date"`
+										DepartureTime    string `json:"departure_time"`
+										DepartureAirport string `json:"departure_airport"`
+										ArrivalAirport   string `json:"arrival_airport"`
+										StopoverCode     string `json:"stopover_code"`
+										FareBasisCode    string `json:"fare_basis_code"`
+									} `json:"flight_leg_details"`
+								} `json:"airline_itineraries"`
+							} `json:"data"`
+						} `json:"supplementary_data"`
+					} `json:"application_context"`
+					SellerReceivableBreakdown struct {
+						GrossAmount struct {
+							CurrencyCode string `json:"currency_code"`
+							Value        string `json:"value"`
+						} `json:"gross_amount"`
+						PaypalFee struct {
+							CurrencyCode string `json:"currency_code"`
+							Value        string `json:"value"`
+						} `json:"paypal_fee"`
+						NetAmount struct {
+							CurrencyCode string `json:"currency_code"`
+							Value        string `json:"value"`
+						} `json:"net_amount"`
+					} `json:"seller_receivable_breakdown"`
+					CreateTime time.Time `json:"create_time"`
+					UpdateTime time.Time `json:"update_time"`
+					Links      []struct {
+						Href   string `json:"href"`
+						Rel    string `json:"rel"`
+						Method string `json:"method"`
+					} `json:"links"`
+				} `json:"captures"`
+			} `json:"payments"`
+		} `json:"purchase_units"`
+		CreateTime time.Time `json:"create_time"`
+		UpdateTime time.Time `json:"update_time"`
+		Links      []struct {
+			Href   string `json:"href"`
+			Rel    string `json:"rel"`
+			Method string `json:"method"`
+		} `json:"links"`
+	}
+
 	// Payer struct
 	Payer struct {
 		PaymentMethod      string              `json:"payment_method"`

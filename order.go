@@ -6,8 +6,26 @@ import "fmt"
 // Endpoint: GET /v1/payments/orders/ID
 func (c *Client) GetOrder(orderID string) (*Order, error) {
 	order := &Order{}
+	endpoint := "/v1/payments/orders/"
 
-	req, err := c.NewRequest("GET", fmt.Sprintf("%s%s%s", c.APIBase, "/v1/payments/orders/", orderID), nil)
+	req, err := c.NewRequest("GET", fmt.Sprintf("%s%s%s", c.APIBase, endpoint, orderID), nil)
+	if err != nil {
+		return order, err
+	}
+
+	if err = c.SendWithAuth(req, order); err != nil {
+		return order, err
+	}
+
+	return order, nil
+}
+
+// Endpoint: GET /v2/checkout/orders/ID
+func (c *Client) GetOrderV2(orderID string) (*OrderV2, error) {
+	order := &OrderV2{}
+	endpoint := "/v2/checkout/orders/"
+
+	req, err := c.NewRequest("GET", fmt.Sprintf("%s%s%s", c.APIBase, endpoint, orderID), nil)
 	if err != nil {
 		return order, err
 	}
